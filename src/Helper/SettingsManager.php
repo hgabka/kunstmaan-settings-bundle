@@ -100,7 +100,7 @@ class SettingsManager
         $data = [];
 
         foreach ($this->doctrine->getRepository('HgabkaKunstmaanSettingsBundle:Setting')->find() as $setting) {
-            $data[$setting->getName()] = $setting->getValue();
+            $data[$setting->getSlug()] = $setting->getValue();
         }
 
         $cache->set(self::CACHE_KEY, $data);
