@@ -1,0 +1,8 @@
+parameters:
+    hgabka_kunstmaan_settings.settings_manager.class: 'Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager'
+
+services:
+    hgabka_kunstmaan_settings.settings_manager:
+        class: '%hgabka_kunstmaan_settings.settings_manager.class%'
+        arguments: ['@doctrine']
+
