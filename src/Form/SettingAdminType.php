@@ -117,8 +117,8 @@ class SettingAdminType extends AbstractType
 
                 $options = [
                     'choices' => [
-                        'no'  => 0,
-                        'yes' => 1
+                        'hgabka_kuma_settings.labels.no'  => 0,
+                        'hgabka_kuma_settings.labels.yes' => 1
                     ],
                     'data' => (int)$setting->getValue()
                 ];

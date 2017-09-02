@@ -47,7 +47,7 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
     {
         $this->addField('name', 'Név', true);
         $this->addField('description', 'Leírás', true);
-        $this->addField('value', 'Érték', true);
+        $this->addField('value', 'Érték', true, 'HgabkaKunstmaanSettingsBundle:Field:value_field.html.twig');
     }
 
     /**

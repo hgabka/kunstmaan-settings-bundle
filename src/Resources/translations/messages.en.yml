@@ -5,3 +5,6 @@ hgabka_kuma_settings:
         bool: true/false
         email: email
         float: number
+    labels:
+        yes: yes
+        no: no

@@ -1,0 +1,11 @@
+{% set value = object.getValueConverted() %}
+    {% set objType = object.getType() %}
+    {% if objType == 'bool' %}
+        {% if value %}
+            <span class="label label-success">{{ 'hgabka_kuma_settings.labels.yes'|trans }}</span>
+        {% else %}
+            <span class="label label-danger">{{ 'hgabka_kuma_settings.labels.no'|trans }}</span>
+        {% endif %}
+    {% else %}
+        {{ value }}
+    {% endif %}

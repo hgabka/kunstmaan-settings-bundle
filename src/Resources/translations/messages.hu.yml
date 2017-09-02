@@ -5,3 +5,6 @@ hgabka_kuma_settings:
         bool: igaz/hamis
         email: email
         float: szám
+    labels:
+        yes: igen
+        no: nem
