@@ -6,6 +6,12 @@ services:
         class: '%hgabka_kunstmaan_settings.settings_manager.class%'
         arguments: ["@doctrine", "%kernel.cache_dir%"]
 
+    hgabka_kunstmaan_settings.settings_type:
+        class: Hgabka\KunstmaanSettingsBundle\Form\SettingAdminType
+        arguments: ["@security.token_storage", '@hgabka_kunstmaan_settings.settings_manager']
+        tags:
+            - { name: form.type }
+
     hgabka_kunstmaan_settings.settings_twig_extension:
         class: Hgabka\KunstmaanSettingsBundle\Twig\HgabkaKunstmaanSettingsTwigExtension
         arguments: ['@hgabka_kunstmaan_settings.settings_manager']
