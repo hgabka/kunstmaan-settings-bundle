@@ -6,3 +6,11 @@ services:
         class: '%hgabka_kunstmaan_settings.settings_manager.class%'
         arguments: ['@doctrine']
 
+    hgabka_kunstmaan_settings.settings_twig_extension:
+        class: Hgabka\KunstmaanSettingsBundle\Twig\HgabkaKunstmaanSettingsTwigExtension
+        arguments: ['@hgabka_kunstmaan_settings.settings_manager']
+        public: false
+        tags:
+            - { name: twig.extension }
+
+
