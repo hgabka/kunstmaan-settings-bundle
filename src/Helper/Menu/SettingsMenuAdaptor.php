@@ -52,7 +52,8 @@ class SettingsMenuAdaptor  implements MenuAdaptorInterface
                 $menuItem->setActive(true);
                 $parent->setActive(true);
             }
-            $children[] = $menuItem;
+			
+            array_unshift($children, $menuItem);
         }
     }
 }
