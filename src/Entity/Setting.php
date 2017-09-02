@@ -4,6 +4,7 @@
 namespace Hgabka\KunstmaanSettingsBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Hgabka\KunstmaanSettingsBundle\Choices\SettingTypes;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 

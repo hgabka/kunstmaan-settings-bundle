@@ -100,7 +100,7 @@ class SettingsManager
         return true;
     }
 
-    protected function regenerateCache()
+    public function regenerateCache()
     {
         $cache = $this->getCache();
         $cache->clear();

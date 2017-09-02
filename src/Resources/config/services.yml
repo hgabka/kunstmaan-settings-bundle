@@ -31,5 +31,9 @@ services:
         tags:
             - { name: validator.constraint_validator }
 
-
+    hgabka_kunstmaan_settings.setting_subscriber:
+        class: Hgabka\KunstmaanSettingsBundle\EventListener\SettingSubscriber
+        arguments: ['@hgabka_kunstmaan_settings.settings_manager']
+        tags:
+            - { name: doctrine.event_subscriber, connection: default }
 

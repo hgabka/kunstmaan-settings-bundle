@@ -9,10 +9,18 @@
 namespace Hgabka\KunstmaanSettingsBundle\Form;
 
 use Hgabka\KunstmaanSettingsBundle\Choices\SettingTypes;
+use Hgabka\KunstmaanSettingsBundle\Entity\Setting;
 use Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager;
+use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -50,7 +58,39 @@ class SettingAdminType extends AbstractType
         if ($this->authChecker->isGranted('ROLE_SUPER_ADMIN')) {
             $builder->add('type', ChoiceType::class, ['label' => 'Típus', 'choices' => iterator_to_array(new SettingTypes())]);
         }
-        $builder->add('value', null, ['label' => 'Érték']);
+        $builder->add('description', TextareaType::class, ['label' => 'Leírás']);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $setting = $event->getData();
+            $form = $event->getForm();
+
+            $data = $this->getFieldData($setting);
+
+            $form->add('value', $data['type'], $data['options']);
+        });
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $form = $event->getForm();
+            $data = $this->getFieldData($form->getData(), $event->getData()['type']);
+
+            $form->add('value', $data['type'], $data['options']);
+        });
+
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults(array(
+            'validation_groups' => function (FormInterface $form) {
+                $setting = $form->getData();
+
+                return [
+                    'Default',
+                    'Type'.ucfirst($setting->getType()),
+                    Container::camelize($setting->getName())
+                ];
+            }
+        ));
     }
 
     /**
@@ -61,5 +101,41 @@ class SettingAdminType extends AbstractType
     public function getBlockPrefix()
     {
         return 'hgabka_kunstmaansettings_setting_type';
+    }
+
+    protected function getFieldData(Setting $setting, $type = null)
+    {
+        $options = [];
+        $type = $type ?? $setting->getType();
+
+        switch ($type) {
+            case SettingTypes::INT:
+                $fieldType = IntegerType::class;
+                break;
+            case SettingTypes::BOOL:
+                $fieldType = ChoiceType::class;
+
+                $options = [
+                    'choices' => [
+                        'no'  => 0,
+                        'yes' => 1
+                    ],
+                    'data' => (int)$setting->getValue()
+                ];
+                break;
+            case SettingTypes::EMAIL:
+                $fieldType = EmailType::class;
+                break;
+            case SettingTypes::FLOAT:
+                $fieldType = NumberType::class;
+                break;
+            default:
+                $fieldType = TextType::class;
+        }
+
+        return [
+            'type'          => $fieldType,
+            'options'       => $options,
+        ];
     }
 }
