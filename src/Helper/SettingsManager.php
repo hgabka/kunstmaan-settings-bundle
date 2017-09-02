@@ -16,6 +16,11 @@ class SettingsManager
     protected $doctrine;
 
     /**
+     * @var string
+     */
+    protected $cacheDir;
+
+    /**
      * @var array
      */
     protected $settings;
@@ -29,16 +34,18 @@ class SettingsManager
      * SettingsManager constructor.
      *
      * @param Registry $doctrine
+     * @param $cacheDir
      */
-    public function __construct(Registry $doctrine)
+    public function __construct(Registry $doctrine, $cacheDir)
     {
         $this->doctrine = $doctrine;
+        $this->cacheDir = $cacheDir;
     }
 
     protected function getCache()
     {
         if (is_null($this->cache)) {
-            $this->cache = new FilesystemCache(self::CACHE_KEY);
+            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir . DIRECTORY_SEPARATOR . 'systemsetting');
         }
 
         return $this->cache;
