@@ -11,24 +11,25 @@ namespace Hgabka\KunstmaanSettingsBundle\Form;
 use Hgabka\KunstmaanSettingsBundle\Choices\SettingTypes;
 use Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Hgabka\KunstmaanExtensionBundle\Form\Type\StaticControlType;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class SettingAdminType extends AbstractType
 {
-    /** @var TokenStorageInterface  */
-    private $tokenStorage;
+    /** @var AuthorizationChecker  */
+    private $authChecker;
 
     /** @var  SettingsManager */
     private $settingsManager;
 
-    public function __construct(TokenStorageInterface $tokenStorage, SettingsManager $settingsManager)
+    public function __construct(AuthorizationChecker $authChecker, SettingsManager $settingsManager)
     {
-        $this->tokenStorage = $tokenStorage;
+        $this->authChecker = $authChecker;
         $this->settingsManager = $settingsManager;
     }
 
@@ -45,9 +46,8 @@ class SettingAdminType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $user = $this->tokenStorage->getToken()->getUser();
-        $builder->add('name', $user->isGranted('ROLE_SUPER_ADMIN') ? TextType::class : StaticControlType::class, ['label' => 'Név']);
-        if ($user->isGranted('ROLE_SUPER_ADMIN')) {
+        $builder->add('name', $this->authChecker->isGranted('ROLE_SUPER_ADMIN') ? TextType::class : StaticControlType::class, ['label' => 'Név']);
+        if ($this->authChecker->isGranted('ROLE_SUPER_ADMIN')) {
             $builder->add('type', ChoiceType::class, ['label' => 'Típus', 'choices' => iterator_to_array(new SettingTypes())]);
         }
         $builder->add('value', null, ['label' => 'Érték']);

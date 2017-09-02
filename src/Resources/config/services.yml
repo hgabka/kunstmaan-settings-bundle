@@ -2,13 +2,19 @@ parameters:
     hgabka_kunstmaan_settings.settings_manager.class: 'Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager'
 
 services:
+    hgabka_kunstmaan_settings.menu.adaptor.settings:
+        class: Hgabka\KunstmaanSettingsBundle\Helper\Menu\SettingsMenuAdaptor
+        arguments: ['@security.authorization_checker']
+        tags:
+            -  { name: kunstmaan_admin.menu.adaptor }
+
     hgabka_kunstmaan_settings.settings_manager:
         class: '%hgabka_kunstmaan_settings.settings_manager.class%'
         arguments: ["@doctrine", "%kernel.cache_dir%"]
 
     hgabka_kunstmaan_settings.settings_type:
         class: Hgabka\KunstmaanSettingsBundle\Form\SettingAdminType
-        arguments: ["@security.token_storage", '@hgabka_kunstmaan_settings.settings_manager']
+        arguments: ["@security.authorization_checker", '@hgabka_kunstmaan_settings.settings_manager']
         tags:
             - { name: form.type }
 

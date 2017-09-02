@@ -1,0 +1,4 @@
+KunstmaanSettingsBundle_routes:
+    resource: '@HgabkaKunstmaanSettingsBundle/Controller/SettingAdminListController.php'
+    type:     annotation
+    prefix:   /admin/settings/system-settings
