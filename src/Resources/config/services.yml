@@ -13,4 +13,11 @@ services:
         tags:
             - { name: twig.extension }
 
+    hgabka_kunstmaan_settings.validator.setting:
+        class: Hgabka\KunstmaanSettingsBundle\Validator\SettingValidator
+        arguments: ['@hgabka_kunstmaan_settings.settings_manager']
+        tags:
+            - { name: validator.constraint_validator }
+
+
 

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
+
 /**
  * Setting
  *
@@ -16,34 +17,41 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Setting extends AbstractEntity
 {
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", length=10, nullable=false)
      */
-    private $name;
+    protected $type;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="slug", type="string", length=255, nullable=false)
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=false)
      */
-    private $slug;
+    protected $name;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="value", type="text", nullable=false)
-     * @Assert\NotBlank()
+     * @ORM\Column(type="string", nullable=false)
      */
-    private $value;
+    protected $description;
 
     /**
-     * Set name
-     *
-     * @param string $name
-     *
+     * @ORM\Column(type="text", nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Type(type="integer", groups={"TypeInt"})
+     * @Assert\Type(type="string", groups={"TypeStr"})
+     * @Assert\Type(type="float", groups={"TypeFloat"})
+     * @Assert\Choice(choices={0,1}, groups={"TypeBool"})
+     * @Assert\Email(groups={"TypeEmail"})
+     */
+    protected $value;
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param mixed $name
      * @return Setting
      */
     public function setName($name)
@@ -54,44 +62,7 @@ class Setting extends AbstractEntity
     }
 
     /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return Setting
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set value
-     *
-     * @param string $value
-     *
+     * @param mixed $value
      * @return Setting
      */
     public function setValue($value)
@@ -102,12 +73,77 @@ class Setting extends AbstractEntity
     }
 
     /**
-     * Get value
-     *
      * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * @param mixed $description
+     * @return Setting
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param mixed $type
+     * @return Setting
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * The converted value
+     * @return mixed
      */
     public function getValue()
     {
         return $this->value;
+    }
+
+    public function getValueConverted()
+    {
+        $val = $this->getValue();
+
+        if (!is_null($val)) {
+            switch ($this->getType()) {
+                case SettingTypes::INT:
+                    $val = (int)$val;
+                    break;
+                case SettingTypes::BOOL:
+                    $val = (bool)$val;
+                    break;
+                case SettingTypes::FLOAT:
+                    $val = (float)$val;
+                    break;
+                default:
+                    $val = (string)$val;
+            }
+        }
+
+        return $val;
+    }
+
+    public function __toString()
+    {
+        return $this->getName();
     }
 }
