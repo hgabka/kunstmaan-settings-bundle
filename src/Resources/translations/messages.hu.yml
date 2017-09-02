@@ -1,0 +1,7 @@
+hgabka_kuma_settings:
+    types:
+        str: szöveg
+        int: egész szám
+        bool: igaz/hamis
+        email: email
+        float: szám

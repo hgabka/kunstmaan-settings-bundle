@@ -1,0 +1,7 @@
+hgabka_kuma_settings:
+    types:
+        str: string
+        int: whole number
+        bool: true/false
+        email: email
+        float: number

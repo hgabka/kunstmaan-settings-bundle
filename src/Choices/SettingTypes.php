@@ -11,4 +11,9 @@ class SettingTypes extends ConstantsChoiceList
     const BOOL = 'bool';
     const EMAIL = 'email';
     const FLOAT = 'float';
+
+    public static function getI18nPrefix()
+    {
+        return 'hgabka_kuma_settings.types.';
+    }
 }
