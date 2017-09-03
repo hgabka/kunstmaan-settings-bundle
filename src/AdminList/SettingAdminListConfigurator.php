@@ -99,4 +99,24 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
     {
         return 'Rendszerbeállítások';
     }
+
+    /**
+     * Returns edit title
+     *
+     * @return null|string
+     */
+    public function getEditTitle()
+    {
+        return 'Beállítás szerkesztése';
+    }
+
+    /**
+     * Returns new title
+     *
+     * @return null|string
+     */
+    public function getNewTitle()
+    {
+        return 'Új beállítás';
+    }
 }
