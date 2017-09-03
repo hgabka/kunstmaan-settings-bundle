@@ -8,3 +8,7 @@ hgabka_kuma_settings:
     labels:
         yes: yes
         no: no
+        value: Value
+        name: Name
+        description: Description
+        type: Type

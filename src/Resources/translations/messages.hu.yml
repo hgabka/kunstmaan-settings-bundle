@@ -8,3 +8,7 @@ hgabka_kuma_settings:
     labels:
         yes: igen
         no: nem
+        value: Érték
+        name: Név
+        description: Leírás
+        type: Típus

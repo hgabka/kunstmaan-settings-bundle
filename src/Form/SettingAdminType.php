@@ -54,11 +54,11 @@ class SettingAdminType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('name', $this->authChecker->isGranted('ROLE_SUPER_ADMIN') ? TextType::class : StaticControlType::class, ['label' => 'Név']);
+        $builder->add('name', $this->authChecker->isGranted('ROLE_SUPER_ADMIN') ? TextType::class : StaticControlType::class, ['label' => 'hgabka_kuma_settings.labels.name']);
         if ($this->authChecker->isGranted('ROLE_SUPER_ADMIN')) {
-            $builder->add('type', ChoiceType::class, ['label' => 'Típus', 'choices' => iterator_to_array(new SettingTypes())]);
+            $builder->add('type', ChoiceType::class, ['label' => 'hgabka_kuma_settings.labels.type', 'choices' => iterator_to_array(new SettingTypes())]);
         }
-        $builder->add('description', TextareaType::class, ['label' => 'Leírás']);
+        $builder->add('description', TextareaType::class, ['label' => 'hgabka_kuma_settings.labels.description']);
 
         $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
             $setting = $event->getData();
@@ -105,7 +105,7 @@ class SettingAdminType extends AbstractType
 
     protected function getFieldData(Setting $setting, $type = null)
     {
-        $options = [];
+        $options = ['label' => 'hgabka_kuma_settings.labels.value'];
         $type = $type ?? $setting->getType();
 
         switch ($type) {
@@ -120,7 +120,8 @@ class SettingAdminType extends AbstractType
                         'hgabka_kuma_settings.labels.no'  => 0,
                         'hgabka_kuma_settings.labels.yes' => 1
                     ],
-                    'data' => (int)$setting->getValue()
+                    'data' => (int)$setting->getValue(),
+                    'label' => 'hgabka_kuma_settings.labels.value'
                 ];
                 break;
             case SettingTypes::EMAIL:
