@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * Setting
  *
- * @ORM\Table(name="hgabka_kunstmaansettingsbundle_settings")
+ * @ORM\Table(name="hg_kuma_settingsbundle_settings")
  * @ORM\Entity(repositoryClass="Hgabka\KunstmaanSettingsBundle\Repository\SettingRepository")
  */
 class Setting extends AbstractEntity
