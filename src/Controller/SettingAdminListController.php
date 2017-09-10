@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sfhun
- * Date: 2017.09.02.
- * Time: 19:41
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanSettingsBundle\Controller;
@@ -16,7 +18,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * The admin list controller for Setting
+ * The admin list controller for Setting.
  */
 class SettingAdminListController extends AdminListController
 {
@@ -38,7 +40,7 @@ class SettingAdminListController extends AdminListController
     }
 
     /**
-     * The index action
+     * The index action.
      *
      * @Route("/", name="hgabkakunstmaansettingsbundle_admin_setting")
      */
@@ -48,7 +50,7 @@ class SettingAdminListController extends AdminListController
     }
 
     /**
-     * The add action
+     * The add action.
      *
      * @Route("/add", name="hgabkakunstmaansettingsbundle_admin_setting_add")
      * @Method({"GET", "POST"})
@@ -61,7 +63,7 @@ class SettingAdminListController extends AdminListController
     }
 
     /**
-     * The edit action
+     * The edit action.
      *
      * @param int $id
      *
@@ -76,7 +78,7 @@ class SettingAdminListController extends AdminListController
     }
 
     /**
-     * The edit action
+     * The edit action.
      *
      * @param int $id
      *
@@ -91,7 +93,7 @@ class SettingAdminListController extends AdminListController
     }
 
     /**
-     * The delete action
+     * The delete action.
      *
      * @param int $id
      *
@@ -106,7 +108,7 @@ class SettingAdminListController extends AdminListController
     }
 
     /**
-     * The export action
+     * The export action.
      *
      * @param string $_format
      *

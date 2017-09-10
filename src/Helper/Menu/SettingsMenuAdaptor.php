@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sfhun
- * Date: 2017.09.02.
- * Time: 19:36
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanSettingsBundle\Helper\Menu;
@@ -14,7 +16,7 @@ use Kunstmaan\AdminBundle\Helper\Menu\MenuItem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
-class SettingsMenuAdaptor  implements MenuAdaptorInterface
+class SettingsMenuAdaptor implements MenuAdaptorInterface
 {
     /**
      * @var AuthorizationCheckerInterface
@@ -30,18 +32,18 @@ class SettingsMenuAdaptor  implements MenuAdaptorInterface
     }
 
     /**
-     * In this method you can add children for a specific parent, but also remove and change the already created children
+     * In this method you can add children for a specific parent, but also remove and change the already created children.
      *
      * @param MenuBuilder   $menu      The MenuBuilder
      * @param MenuItem[]    &$children The current children
-     * @param MenuItem|null $parent    The parent Menu item
+     * @param null|MenuItem $parent    The parent Menu item
      * @param Request       $request   The Request
      */
     public function adaptChildren(MenuBuilder $menu, array &$children, MenuItem $parent = null, Request $request = null)
     {
-        if (is_null($parent) || !$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+        if (null === $parent || !$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
             return;
-        } elseif ('KunstmaanAdminBundle_settings' == $parent->getRoute()) {
+        } elseif ('KunstmaanAdminBundle_settings' === $parent->getRoute()) {
             $menuItem = new MenuItem($menu);
             $menuItem
                 ->setRoute('hgabkakunstmaansettingsbundle_admin_setting')
@@ -52,7 +54,7 @@ class SettingsMenuAdaptor  implements MenuAdaptorInterface
                 $menuItem->setActive(true);
                 $parent->setActive(true);
             }
-			
+
             array_unshift($children, $menuItem);
         }
     }

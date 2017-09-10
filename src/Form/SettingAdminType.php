@@ -1,13 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sfhun
- * Date: 2017.09.02.
- * Time: 16:45
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanSettingsBundle\Form;
 
+use Hgabka\KunstmaanExtensionBundle\Form\Type\StaticControlType;
 use Hgabka\KunstmaanSettingsBundle\Choices\SettingTypes;
 use Hgabka\KunstmaanSettingsBundle\Entity\Setting;
 use Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager;
@@ -17,22 +20,21 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Hgabka\KunstmaanExtensionBundle\Form\Type\StaticControlType;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 class SettingAdminType extends AbstractType
 {
-    /** @var AuthorizationChecker  */
+    /** @var AuthorizationChecker */
     private $authChecker;
 
-    /** @var  SettingsManager */
+    /** @var SettingsManager */
     private $settingsManager;
 
     public function __construct(AuthorizationChecker $authChecker, SettingsManager $settingsManager)
@@ -75,22 +77,21 @@ class SettingAdminType extends AbstractType
 
             $form->add('value', $data['type'], $data['options']);
         });
-
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
+        $resolver->setDefaults([
             'validation_groups' => function (FormInterface $form) {
                 $setting = $form->getData();
 
                 return [
                     'Default',
                     'Type'.ucfirst($setting->getType()),
-                    Container::camelize($setting->getName())
+                    Container::camelize($setting->getName()),
                 ];
-            }
-        ));
+            },
+        ]);
     }
 
     /**
@@ -111,32 +112,36 @@ class SettingAdminType extends AbstractType
         switch ($type) {
             case SettingTypes::INT:
                 $fieldType = IntegerType::class;
+
                 break;
             case SettingTypes::BOOL:
                 $fieldType = ChoiceType::class;
 
                 $options = [
                     'choices' => [
-                        'hgabka_kuma_settings.labels.no'  => 0,
-                        'hgabka_kuma_settings.labels.yes' => 1
+                        'hgabka_kuma_settings.labels.no' => 0,
+                        'hgabka_kuma_settings.labels.yes' => 1,
                     ],
-                    'data' => (int)$setting->getValue(),
-                    'label' => 'hgabka_kuma_settings.labels.value'
+                    'data' => (int) $setting->getValue(),
+                    'label' => 'hgabka_kuma_settings.labels.value',
                 ];
+
                 break;
             case SettingTypes::EMAIL:
                 $fieldType = EmailType::class;
+
                 break;
             case SettingTypes::FLOAT:
                 $fieldType = NumberType::class;
+
                 break;
             default:
                 $fieldType = TextType::class;
         }
 
         return [
-            'type'          => $fieldType,
-            'options'       => $options,
+            'type' => $fieldType,
+            'options' => $options,
         ];
     }
 }

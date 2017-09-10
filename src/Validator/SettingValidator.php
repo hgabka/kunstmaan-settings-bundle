@@ -1,16 +1,18 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sfhun
- * Date: 2017.09.02.
- * Time: 8:00
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanSettingsBundle\Validator;
 
+use Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-use Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager;
 
 class SettingValidator extends ConstraintValidator
 {
@@ -25,8 +27,9 @@ class SettingValidator extends ConstraintValidator
     }
 
     /**
-     * @param mixed $value
-     * @param Setting|Constraint $constraint
+     * @param mixed              $value
+     * @param Constraint|Setting $constraint
+     *
      * @throws \Exception
      */
     public function validate($value, Constraint $constraint)
@@ -36,15 +39,18 @@ class SettingValidator extends ConstraintValidator
         switch (strtoupper($constraint->comparator)) {
             case '=':
             case 'EQUALS':
-                $check = $value == $val;
+                $check = $value === $val;
+
                 break;
             case '>':
             case 'GREATER':
                 $check = $value > $val;
+
                 break;
             case '<':
             case 'LESSER':
                 $check = $value < $val;
+
                 break;
             default:
                 throw new \Exception('Invalid comparator');
@@ -56,7 +62,6 @@ class SettingValidator extends ConstraintValidator
                 ->setParameter('{{ value }}', $this->formatValue($value))
                 ->addViolation()
             ;
-
         }
     }
 }

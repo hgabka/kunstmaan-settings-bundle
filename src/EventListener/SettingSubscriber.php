@@ -1,9 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sfhun
- * Date: 2017.09.02.
- * Time: 21:19
+
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
  */
 
 namespace Hgabka\KunstmaanSettingsBundle\EventListener;
@@ -20,6 +22,7 @@ class SettingSubscriber implements EventSubscriber
 
     /**
      * SettingListener constructor.
+     *
      * @param SettingsManager $settingsManager
      */
     public function __construct(SettingsManager $settingsManager)
@@ -29,11 +32,11 @@ class SettingSubscriber implements EventSubscriber
 
     public function getSubscribedEvents()
     {
-        return array(
+        return [
             'postPersist',
             'postUpdate',
-            'preRemove'
-        );
+            'preRemove',
+        ];
     }
 
     public function postPersist(LifecycleEventArgs $args)

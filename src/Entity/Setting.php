@@ -1,5 +1,12 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace Hgabka\KunstmaanSettingsBundle\Entity;
 
@@ -8,9 +15,8 @@ use Hgabka\KunstmaanSettingsBundle\Choices\SettingTypes;
 use Kunstmaan\AdminBundle\Entity\AbstractEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
 /**
- * Setting
+ * Setting.
  *
  * @ORM\Table(name="hg_kuma_settings_settings")
  * @ORM\Entity(repositoryClass="Hgabka\KunstmaanSettingsBundle\Repository\SettingRepository")
@@ -43,6 +49,11 @@ class Setting extends AbstractEntity
      */
     protected $value;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * @return string
      */
@@ -53,6 +64,7 @@ class Setting extends AbstractEntity
 
     /**
      * @param mixed $name
+     *
      * @return Setting
      */
     public function setName($name)
@@ -64,6 +76,7 @@ class Setting extends AbstractEntity
 
     /**
      * @param mixed $value
+     *
      * @return Setting
      */
     public function setValue($value)
@@ -83,6 +96,7 @@ class Setting extends AbstractEntity
 
     /**
      * @param mixed $description
+     *
      * @return Setting
      */
     public function setDescription($description)
@@ -102,6 +116,7 @@ class Setting extends AbstractEntity
 
     /**
      * @param mixed $type
+     *
      * @return Setting
      */
     public function setType($type)
@@ -112,7 +127,8 @@ class Setting extends AbstractEntity
     }
 
     /**
-     * The converted value
+     * The converted value.
+     *
      * @return mixed
      */
     public function getValue()
@@ -124,27 +140,25 @@ class Setting extends AbstractEntity
     {
         $val = $this->getValue();
 
-        if (!is_null($val)) {
+        if (null !== $val) {
             switch ($this->getType()) {
                 case SettingTypes::INT:
-                    $val = (int)$val;
+                    $val = (int) $val;
+
                     break;
                 case SettingTypes::BOOL:
-                    $val = (bool)$val;
+                    $val = (bool) $val;
+
                     break;
                 case SettingTypes::FLOAT:
-                    $val = (float)$val;
+                    $val = (float) $val;
+
                     break;
                 default:
-                    $val = (string)$val;
+                    $val = (string) $val;
             }
         }
 
         return $val;
-    }
-
-    public function __toString()
-    {
-        return $this->getName();
     }
 }

@@ -1,9 +1,16 @@
 <?php
 
+/*
+ * This file is part of PHP CS Fixer.
+ * (c) Fabien Potencier <fabien@symfony.com>
+ *     Dariusz Rumiński <dariusz.ruminski@gmail.com>
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace Hgabka\KunstmaanSettingsBundle\Helper;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
-use Symfony\Component\PropertyAccess\Exception\InvalidArgumentException;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 
 class SettingsManager
@@ -42,17 +49,9 @@ class SettingsManager
         $this->cacheDir = $cacheDir;
     }
 
-    protected function getCache()
-    {
-        if (is_null($this->cache)) {
-            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir . DIRECTORY_SEPARATOR . 'systemsetting');
-        }
-
-        return $this->cache;
-    }
-
     /**
-     * Az összes beállítás lekérdezése a cache-ből
+     * Az összes beállítás lekérdezése a cache-ből.
+     *
      * @return array
      */
     public function getCacheData()
@@ -66,10 +65,12 @@ class SettingsManager
     }
 
     /**
-     * Kulcs-érték pár hozzáadása a cache-hez
+     * Kulcs-érték pár hozzáadása a cache-hez.
+     *
      * @param string $name
-     * @param mixed $value
-     * @return boolean
+     * @param mixed  $value
+     *
+     * @return bool
      */
     public function addToCache($name, $value)
     {
@@ -82,9 +83,11 @@ class SettingsManager
     }
 
     /**
-     * Beállítás törlése a cache-ből
+     * Beállítás törlése a cache-ből.
+     *
      * @param string $name
-     * @return boolean
+     *
+     * @return bool
      */
     public function removeFromCache($name)
     {
@@ -122,5 +125,14 @@ class SettingsManager
         }
 
         return array_key_exists($name, $this->settings) ? $this->settings[$name] : $defaultValue;
+    }
+
+    protected function getCache()
+    {
+        if (null === $this->cache) {
+            $this->cache = new FilesystemCache(self::CACHE_KEY, 0, $this->cacheDir.DIRECTORY_SEPARATOR.'systemsetting');
+        }
+
+        return $this->cache;
     }
 }
