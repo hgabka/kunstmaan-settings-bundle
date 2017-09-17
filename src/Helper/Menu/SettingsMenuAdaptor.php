@@ -50,7 +50,7 @@ class SettingsMenuAdaptor implements MenuAdaptorInterface
                 ->setUniqueId('setting')
                 ->setLabel('Rendszerbeállítások')
                 ->setParent($parent);
-            if (stripos($request->attributes->get('_route'), $menuItem->getRoute()) === 0) {
+            if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
                 $menuItem->setActive(true);
                 $parent->setActive(true);
             }
