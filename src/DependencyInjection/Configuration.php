@@ -13,8 +13,13 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder
-            ->root('hgabka_kunstmaan_settings')
+        $rootNode = $treeBuilder->root('hgabka_kunstmaan_settings');
+
+        $rootNode
+            ->children()
+                ->scalarNode('editor_role')->cannotBeEmpty()->defaultValue('ROLE_SETTING_ADMIN')->end()
+            ->end()
+        ->end()
         ;
 
         return $treeBuilder;

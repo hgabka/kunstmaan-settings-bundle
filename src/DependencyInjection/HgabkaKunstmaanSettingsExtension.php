@@ -15,9 +15,17 @@ class HgabkaKunstmaanSettingsExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+
+        $voterDefinition = $container->getDefinition('hgabka_kunstmaan_settings.setting_voter');
+        $voterDefinition->replaceArgument(1, $config['editor_role']);
+
+        $menuAdaptorDefinition = $container->getDefinition('hgabka_kunstmaan_settings.menu.adaptor.settings');
+        $menuAdaptorDefinition->replaceArgument(1, $config['editor_role']);
+
+        $container->setParameter('hgabka_kunstmaan_settings.editor_role', $config['editor_role']);
     }
 }

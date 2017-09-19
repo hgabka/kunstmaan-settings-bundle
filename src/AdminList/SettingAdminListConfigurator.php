@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use Hgabka\KunstmaanSettingsBundle\Entity\Setting;
 use Hgabka\KunstmaanSettingsBundle\Form\SettingAdminType;
 use Hgabka\KunstmaanSettingsBundle\Helper\SettingsManager;
+use Hgabka\KunstmaanSettingsBundle\Security\SettingVoter;
 use Kunstmaan\AdminBundle\Helper\Security\Acl\AclHelper;
 use Kunstmaan\AdminListBundle\AdminList\Configurator\AbstractDoctrineORMAdminListConfigurator;
 use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
@@ -21,16 +22,20 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
     /** @var SettingsManager */
     private $settingsManager;
 
+    /** @var string */
+    private $editorRole;
+
     /**
      * @param EntityManager $em        The entity manager
      * @param AclHelper     $aclHelper The acl helper
      */
-    public function __construct(EntityManager $em, AuthorizationChecker $authChecker, SettingsManager $manager, AclHelper $aclHelper = null)
+    public function __construct(EntityManager $em, AuthorizationChecker $authChecker, SettingsManager $manager, string $editorRole, AclHelper $aclHelper = null)
     {
         parent::__construct($em, $aclHelper);
         $this->setAdminType(new SettingAdminType($authChecker, $manager));
         $this->authChecker = $authChecker;
         $this->settingsManager = $manager;
+        $this->editorRole = $editorRole;
     }
 
     /**
@@ -86,6 +91,16 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
     public function canDelete($item)
     {
         return $this->authChecker->isGranted('ROLE_SUPER_ADMIN');
+    }
+
+    /**
+     * @param array|object $item
+     *
+     * @return bool
+     */
+    public function canEdit($item)
+    {
+        return $this->authChecker->isGranted(SettingVoter::EDIT, $item);
     }
 
     public function getListTitle()

@@ -25,7 +25,12 @@ class SettingAdminListController extends AdminListController
     public function getAdminListConfigurator()
     {
         if (!isset($this->configurator)) {
-            $this->configurator = new SettingAdminListConfigurator($this->getEntityManager(), $this->get('security.authorization_checker'), $this->get('hgabka_kunstmaan_settings.settings_manager'));
+            $this->configurator = new SettingAdminListConfigurator(
+                $this->getEntityManager(),
+                $this->get('security.authorization_checker'),
+                $this->get('hgabka_kunstmaan_settings.settings_manager'),
+                $this->container->getParameter('hgabka_kunstmaan_settings.editor_role')
+            );
         }
 
         return $this->configurator;
@@ -38,6 +43,8 @@ class SettingAdminListController extends AdminListController
      */
     public function indexAction(Request $request)
     {
+        $this->denyAccessUnlessGranted($this->container->getParameter('hgabka_kunstmaan_settings.editor_role'));
+
         return parent::doIndexAction($this->getAdminListConfigurator(), $request);
     }
 

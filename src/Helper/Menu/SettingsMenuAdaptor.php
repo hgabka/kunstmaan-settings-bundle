@@ -15,12 +15,16 @@ class SettingsMenuAdaptor implements MenuAdaptorInterface
      */
     protected $authorizationChecker;
 
+    /** @var string */
+    protected $editorRole;
+
     /**
      * @param AuthorizationCheckerInterface $authorizationChecker
      */
-    public function __construct(AuthorizationCheckerInterface $authorizationChecker)
+    public function __construct(AuthorizationCheckerInterface $authorizationChecker, string $editorRole)
     {
         $this->authorizationChecker = $authorizationChecker;
+        $this->editorRole = $editorRole;
     }
 
     /**
@@ -33,7 +37,7 @@ class SettingsMenuAdaptor implements MenuAdaptorInterface
      */
     public function adaptChildren(MenuBuilder $menu, array &$children, MenuItem $parent = null, Request $request = null)
     {
-        if (null === $parent || !$this->authorizationChecker->isGranted('ROLE_ADMIN')) {
+        if (null === $parent || !$this->authorizationChecker->isGranted($this->editorRole)) {
             return;
         } elseif ('KunstmaanAdminBundle_settings' === $parent->getRoute()) {
             $menuItem = new MenuItem($menu);

@@ -4,7 +4,7 @@ parameters:
 services:
     hgabka_kunstmaan_settings.menu.adaptor.settings:
         class: Hgabka\KunstmaanSettingsBundle\Helper\Menu\SettingsMenuAdaptor
-        arguments: ['@security.authorization_checker']
+        arguments: ['@security.authorization_checker', '']
         tags:
             -  { name: kunstmaan_admin.menu.adaptor }
 
@@ -37,3 +37,9 @@ services:
         tags:
             - { name: doctrine.event_subscriber, connection: default }
 
+    hgabka_kunstmaan_settings.setting_voter:
+        class:  Hgabka\KunstmaanSettingsBundle\Security\SettingVoter
+        arguments: ['@security.access.decision_manager', '']
+        tags:
+            - { name: security.voter }
+        public: false
