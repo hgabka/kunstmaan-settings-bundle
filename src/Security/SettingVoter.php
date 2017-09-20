@@ -58,7 +58,7 @@ class SettingVoter extends Voter
         throw new \LogicException('This code should not be reached!');
     }
 
-    private function canEdit(Banner $banner, TokenInterface $token)
+    private function canEdit(Setting $banner, TokenInterface $token)
     {
         return $this->decisionManager->decide($token, [$this->editorRole]);
     }
