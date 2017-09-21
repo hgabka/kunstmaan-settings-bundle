@@ -43,3 +43,5 @@ services:
         tags:
             - { name: security.voter }
         public: false
+
+    '%hgabka_kunstmaan_settings.settings_manager.class%': '@hgabka_kunstmaan_settings.settings_manager'
