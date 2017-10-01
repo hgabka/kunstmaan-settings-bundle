@@ -26,8 +26,11 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
     private $editorRole;
 
     /**
-     * @param EntityManager $em        The entity manager
-     * @param AclHelper     $aclHelper The acl helper
+     * @param EntityManager $em The entity manager
+     * @param AuthorizationChecker $authChecker
+     * @param SettingsManager $manager
+     * @param string $editorRole
+     * @param AclHelper $aclHelper The acl helper
      */
     public function __construct(EntityManager $em, AuthorizationChecker $authChecker, SettingsManager $manager, string $editorRole, AclHelper $aclHelper = null)
     {
@@ -43,7 +46,9 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
      */
     public function buildFields()
     {
-        $this->addField('name', 'Név', true);
+        if ($this->authChecker->isGranted('ROLE_SUPER_ADMIN')) {
+            $this->addField('name', 'Név', true);
+        }
         $this->addField('description', 'Leírás', true);
         $this->addField('value', 'Érték', true, 'HgabkaKunstmaanSettingsBundle:Field:value_field.html.twig');
     }
