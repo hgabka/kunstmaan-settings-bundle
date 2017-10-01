@@ -32,7 +32,7 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
     public function __construct(EntityManager $em, AuthorizationChecker $authChecker, SettingsManager $manager, string $editorRole, AclHelper $aclHelper = null)
     {
         parent::__construct($em, $aclHelper);
-        $this->setAdminType(new SettingAdminType($authChecker, $manager));
+        $this->setAdminType(SettingAdminType::class);
         $this->authChecker = $authChecker;
         $this->settingsManager = $manager;
         $this->editorRole = $editorRole;
