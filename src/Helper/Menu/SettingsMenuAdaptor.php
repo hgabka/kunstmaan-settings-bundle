@@ -52,7 +52,7 @@ class SettingsMenuAdaptor implements MenuAdaptorInterface
             }
 
             array_unshift($children, $menuItem);
-        } elseif ('setting' == $parent->getUniqueId()) {
+        } elseif ('setting' === $parent->getUniqueId()) {
             $this->addMenuForSubRoute($menu, $parent, 'Új beállítás', 'hgabkakunstmaansettingsbundle_admin_setting_add', $children, $request);
             $this->addMenuForSubRoute($menu, $parent, 'Beállítás szerkesztése', 'hgabkakunstmaansettingsbundle_admin_setting_edit', $children, $request);
         }
