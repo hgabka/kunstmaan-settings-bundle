@@ -52,6 +52,22 @@ class SettingsMenuAdaptor implements MenuAdaptorInterface
             }
 
             array_unshift($children, $menuItem);
+        } elseif ('setting' == $parent->getUniqueId()) {
+            $this->addMenuForSubRoute($menu, $parent, 'Új beállítás', 'hgabkakunstmaansettingsbundle_admin_setting_add', $children, $request);
+            $this->addMenuForSubRoute($menu, $parent, 'Beállítás szerkesztése', 'hgabkakunstmaansettingsbundle_admin_setting_edit', $children, $request);
         }
+    }
+
+    protected function addMenuForSubRoute($menu, $parent, $label, $route, &$children, $request)
+    {
+        $menuItem = new MenuItem($menu);
+        $menuItem->setUniqueId($route);
+        $menuItem->setRoute($route);
+        $menuItem->setLabel($label)->setAppearInNavigation(false)->setParent($parent);
+        if (0 === stripos($request->attributes->get('_route'), $menuItem->getRoute())) {
+            $menuItem->setActive(true);
+        }
+
+        $children[] = $menuItem;
     }
 }
