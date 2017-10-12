@@ -3,6 +3,7 @@
 namespace Hgabka\KunstmaanSettingsBundle\Helper;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Hgabka\KunstmaanExtensionBundle\Helper\KumaUtils;
 use Symfony\Component\Cache\Simple\FilesystemCache;
 
 class SettingsManager
@@ -29,16 +30,43 @@ class SettingsManager
      */
     protected $cache;
 
+    /** @var KumaUtils */
+    protected $kumaUtils;
+
     /**
      * SettingsManager constructor.
      *
      * @param Registry $doctrine
      * @param $cacheDir
      */
-    public function __construct(Registry $doctrine, $cacheDir)
+    public function __construct(Registry $doctrine, KumaUtils $kumaUtils, $cacheDir)
     {
         $this->doctrine = $doctrine;
         $this->cacheDir = $cacheDir;
+        $this->kumaUtils = $kumaUtils;
+    }
+
+    /**
+     * Magic method a getter cuccoknak.
+     *
+     * @param mixed $method
+     * @param mixed $arguments
+     *
+     * @throws \Exception
+     *
+     * @return mixed
+     */
+    public function __call($method, $arguments)
+    {
+        if ('get' !== ($verb = substr($method, 0, 3))) {
+            throw new \Exception('Ismeretlen, vagy nem elerheto metodus: '.self::class.'::'.$method);
+        }
+
+        $property = substr($method, 3);
+
+        $setting = $this->kumaUtils->tableize($property);
+
+        return $this->get($setting);
     }
 
     /**

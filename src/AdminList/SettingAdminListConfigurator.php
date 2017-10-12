@@ -26,11 +26,11 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
     private $editorRole;
 
     /**
-     * @param EntityManager $em The entity manager
+     * @param EntityManager        $em          The entity manager
      * @param AuthorizationChecker $authChecker
-     * @param SettingsManager $manager
-     * @param string $editorRole
-     * @param AclHelper $aclHelper The acl helper
+     * @param SettingsManager      $manager
+     * @param string               $editorRole
+     * @param AclHelper            $aclHelper   The acl helper
      */
     public function __construct(EntityManager $em, AuthorizationChecker $authChecker, SettingsManager $manager, string $editorRole, AclHelper $aclHelper = null)
     {

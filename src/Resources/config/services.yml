@@ -10,7 +10,7 @@ services:
 
     hgabka_kunstmaan_settings.settings_manager:
         class: '%hgabka_kunstmaan_settings.settings_manager.class%'
-        arguments: ["@doctrine", "%kernel.cache_dir%"]
+        arguments: ["@doctrine", "@hgabka_kunstmaan_extension.kuma_utils", "%kernel.cache_dir%"]
 
     hgabka_kunstmaan_settings.settings_type:
         class: Hgabka\KunstmaanSettingsBundle\Form\SettingAdminType
