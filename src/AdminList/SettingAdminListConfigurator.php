@@ -133,9 +133,8 @@ class SettingAdminListConfigurator extends AbstractDoctrineORMAdminListConfigura
         return 'Új beállítás';
     }
     
-    public function getLimit()
+    public function getPagesize()
     {
         return PHP_INT_MAX;
     }
-
 }
